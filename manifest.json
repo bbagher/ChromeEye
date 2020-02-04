@@ -1,0 +1,37 @@
+{
+    "manifest_version": 2,
+    "name": "ChromeEYE",
+    "author": "bbagher",
+    "description": "Make the browser read for you by visual cues",
+    "version": "1.0",
+    "browser_action": {
+        "default_icon": {
+            "16": "eye.png",
+            "24": "eye.png",
+            "32": "eye.png"
+        },
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "storage"
+    ],
+    "background": {
+        "scripts": [
+            "background.js"
+        ],
+        "persistent": false
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "<all_urls>"
+            ],
+            "js": [
+                "popup.js"
+            ],
+            "css": [
+                "style.css"
+            ]
+        }
+    ]
+}
