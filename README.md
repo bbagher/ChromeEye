@@ -1,2 +1,2 @@
-# chromeeye
+# ChromeEye
 ChromeEye
