@@ -2,6 +2,15 @@
   width: 100%; /* Width of the outside container */
 }
 
+.color {
+  margin-top: 10%;
+  margin-left: 15%;
+}
+
+.letter {
+  color: red;
+}
+
 /* The slider itself */
 .slider {
   -webkit-appearance: none;  /* Override default CSS styles */
@@ -16,7 +25,7 @@
 }
 
 /* Mouse-over effects */
-.slider:hover {
+.slider:hover .color:hover{
   opacity: 1; /* Fully shown on mouse-over */
 }
 

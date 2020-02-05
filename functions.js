@@ -1,5 +1,5 @@
   // update values in locals
- const retrieveAndSetFromLocals = (key, node) => {
+ const updateLocals = (key, node) => {
     chrome.storage.local.get([key], function(result) {
       let res = result[key];
       if (res) node.value = res;
@@ -53,4 +53,4 @@ const chromeEye = (speed, size) => {
     );
   };
 
-// module.exports = { retrieveAndSetFromLocals, setToLocals, chromeEye}
+// module.exports = { updateLocals, setToLocals, chromeEye}
