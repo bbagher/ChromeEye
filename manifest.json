@@ -13,13 +13,14 @@
         "default_popup": "popup.html"
     },
     "permissions": [
+        "activeTab",
+        "declarativeContent",
         "storage"
     ],
     "background": {
         "scripts": [
             "background.js"
-        ],
-        "persistent": false
+        ]
     },
     "content_scripts": [
         {
@@ -33,5 +34,11 @@
                 "style.css"
             ]
         }
-    ]
+    ],
+    "icons": {
+        "16": "eye.png",
+        "32": "eye.png",
+        "48": "eye.png",
+        "128": "eye.png"
+    }
 }
