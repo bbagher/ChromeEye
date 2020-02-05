@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "ChromeEYE",
     "author": "bbagher",
-    "description": "Make the browser read for you by visual cues",
+    "description": "Speed up your reading and productivity",
     "version": "1.0",
     "browser_action": {
         "default_icon": {
@@ -17,11 +17,6 @@
         "declarativeContent",
         "storage"
     ],
-    "background": {
-        "scripts": [
-            "background.js"
-        ]
-    },
     "content_scripts": [
         {
             "matches": [

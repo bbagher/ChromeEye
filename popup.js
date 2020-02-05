@@ -24,9 +24,6 @@ window.addEventListener("DOMContentLoaded", event => {
     const readEye = text => {
       let actualSpeed = Number(speed) * 10;
       let actualSize = Number(size) * 2;
-      console.log("actual size ", actualSize);
-      console.log("actual speed ", actualSpeed);
-      console.log(actualSpeed);
       let og = text.innerHTML
         .split(" ")
         .slice()
