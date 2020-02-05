@@ -2,6 +2,32 @@ window.addEventListener("DOMContentLoaded", event => {
   let speed, color, size;
   // import heavy duty work
   // const {updateLocals, setToLocals, chromeEye} = require('./functions.js')
+
+
+  const cleanText = array =>{
+
+    return array.map(e => {
+      while (e.includes('↵'))
+      return e.split('↵').join(' ')
+      while (e.includes('!')) 
+      return e.split('!').join(' ')
+      while( e.includes('('))
+      return e.split('(').join(' ')
+      while (e.includes(')'))
+      return e.split(')').join(' ')
+      while  (e.includes(','))
+      return e.split(',').join(' ')
+      while  (e.includes(';'))
+      return e.split(';').join(' ')
+      while  (e.includes('.'))
+      return e.split('.').join(' ')
+      return e}).map(e => {while (e.includes(' ')) return e.split(' '); return e}).flat([Infinity]).filter(e => e)
+
+    }
+      
+    
+    
+
   const updateLocals = (key, node) => {
     chrome.storage.local.get([key], function(result) {
       let res = result[key];
@@ -26,7 +52,7 @@ window.addEventListener("DOMContentLoaded", event => {
   };
 
   // this is it
-  const chromeEye = (speed, size, color) => {
+  const chromeEye = (speed, size, color, cleanCallback) => {
     // where all magic happens
     const readEye = text => {
       // fixing color persistance bug
@@ -43,6 +69,8 @@ window.addEventListener("DOMContentLoaded", event => {
         .slice()
         .join(" ");
       let textArray = text.innerText.split(" ");
+      textArray = cleanCallback(textArray)
+      console.log(textArray)
       let offset = 0;
       let spritz;
       let temp = textArray[0];
@@ -66,6 +94,7 @@ window.addEventListener("DOMContentLoaded", event => {
           ] = `<center><mark style="background-color: ${color}; font-size: ${actualSize}px;"><strong>${textArray[i]}</strong></mark></center>`;
           // inject in html
           text.innerHTML = textArray.join(" ");
+          // text.innerHTML = textArray[i];
           // return word to its original form
           textArray[i] = temp;
         }, 0 + offset);
@@ -137,9 +166,13 @@ window.addEventListener("DOMContentLoaded", event => {
           sizeStep.value +
           ",'" +
           colorStep.value +
-          "')"
+          "'," + 
+          cleanText +
+          ")"
       });
     });
   });
   disableEye();
 });
+
+
