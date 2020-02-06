@@ -1,32 +1,14 @@
 window.addEventListener("DOMContentLoaded", event => {
-  let speed, color, size;
-  // import heavy duty work
-  // const {updateLocals, setToLocals, chromeEye} = require('./functions.js')
+  let speed, color, size, og, clearBool;
 
-
-  const cleanText = array =>{
-
-    return array.map(e => {
-      while (e.includes('↵'))
-      return e.split('↵').join(' ')
-      while (e.includes('!')) 
-      return e.split('!').join(' ')
-      while( e.includes('('))
-      return e.split('(').join(' ')
-      while (e.includes(')'))
-      return e.split(')').join(' ')
-      while  (e.includes(','))
-      return e.split(',').join(' ')
-      while  (e.includes(';'))
-      return e.split(';').join(' ')
-      while  (e.includes('.'))
-      return e.split('.').join(' ')
-      return e}).map(e => {while (e.includes(' ')) return e.split(' '); return e}).flat([Infinity]).filter(e => e)
-
-    }
-      
-    
-    
+  const stop = () => {
+    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+      chrome.tabs.executeScript(tabs[0].id, {
+        code:
+          "var id = window.setTimeout(function() {}, 0);while (id--) {window.clearTimeout(id);}"
+      });
+    });
+  };
 
   const updateLocals = (key, node) => {
     chrome.storage.local.get([key], function(result) {
@@ -52,27 +34,23 @@ window.addEventListener("DOMContentLoaded", event => {
   };
 
   // this is it
-  const chromeEye = (speed, size, color, cleanCallback) => {
-    // where all magic happens
+  const chromeEye = (speed, size, color, bool) => {
     const readEye = text => {
       // fixing color persistance bug
       chrome.storage.local.set({ ["color"]: color }, function() {
         console.log("Value is set to " + value);
       });
       // user inputs  and (very sophisticated algo for speed and size)
-      let actualSpeed = Number(speed) * 5;
+      let actualSpeed = (100 - Number(speed)) * 5;
       let actualSize = Number(size) * 2;
-      // console.log('inside main', color)
-      // console.log('this is color ', color, typeof color, color.constructor)
-      let og = text.innerHTML
+      og = text.innerHTML
         .split(" ")
         .slice()
         .join(" ");
       let textArray = text.innerText.split(" ");
-      textArray = cleanCallback(textArray)
-      console.log(textArray)
+      console.log(textArray);
       let offset = 0;
-      let spritz;
+      let red;
       let temp = textArray[0];
       // iterate through array of words and increasing timeout for each word (taming async)
       for (let i = 0; i < textArray.length; i++) {
@@ -81,20 +59,17 @@ window.addEventListener("DOMContentLoaded", event => {
           // save unmodified word
           temp = textArray[i];
           // change the css of each word
-          // adding spritz
-          spritz = textArray[i].split("");
-          spritz[
-            Math.floor((spritz.length - 1) / 2)
-          ] = `<span style="color: red">${
-            spritz[Math.floor((spritz.length - 1) / 2)]
+          red = textArray[i].split("");
+          red[Math.floor((red.length - 1) / 2)] = `<span style="color: red">${
+            red[Math.floor((red.length - 1) / 2)]
           }</span>`;
-          textArray[i] = spritz.join("");
+          textArray[i] = red.join("");
           textArray[
             i
           ] = `<center><mark style="background-color: ${color}; font-size: ${actualSize}px;"><strong>${textArray[i]}</strong></mark></center>`;
           // inject in html
-          text.innerHTML = textArray.join(" ");
-          // text.innerHTML = textArray[i];
+          if (!bool) text.innerHTML = textArray.join(" ");
+          else text.innerHTML = textArray[i];
           // return word to its original form
           textArray[i] = temp;
         }, 0 + offset);
@@ -116,7 +91,9 @@ window.addEventListener("DOMContentLoaded", event => {
   };
 
   // hold all components that hold important data values from user inputs
-  let activate = document.getElementById("checkbox");
+  let activate = document.getElementById("activate");
+  let stopButton = document.getElementById("stop");
+  let clear = document.getElementById("clear");
   let speedStep = document.getElementById("speed");
   let sizeStep = document.getElementById("size");
   let colorStep = document.getElementById("color");
@@ -126,7 +103,19 @@ window.addEventListener("DOMContentLoaded", event => {
   updateLocals("speed", speedStep);
   updateLocals("color", colorStep);
 
+    chrome.storage.local.get(["clear"], function(result) {
+      let res = result.clear;
+      if (res) clear.checked = res;
+      else clear.checked = false
+    });
+
   console.log("DOM fully loaded and parsed");
+
+  clear.addEventListener("click", function(eventIn){
+    clearBool = clear.checked;
+    setToLocals("clear", clearBool);
+
+  })
 
   // listen for user inputs
   colorStep.addEventListener("click", function(eventIn) {
@@ -146,16 +135,14 @@ window.addEventListener("DOMContentLoaded", event => {
     setToLocals("size", size);
   });
 
+  stopButton.addEventListener("click", function(eventIn) {
+    stop();
+  });
+
   activate.addEventListener("click", function(eventIn) {
     disableEye();
 
     chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-      console.log(
-        "activating script at ",
-        speedStep.value,
-        "and size ",
-        sizeStep.value
-      );
       chrome.tabs.executeScript(tabs[0].id, {
         code:
           "(" +
@@ -166,13 +153,10 @@ window.addEventListener("DOMContentLoaded", event => {
           sizeStep.value +
           ",'" +
           colorStep.value +
-          "'," + 
-          cleanText +
+          "'," +
+          clear.checked +
           ")"
       });
     });
   });
-  disableEye();
 });
-
-
