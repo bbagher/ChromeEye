@@ -10,7 +10,7 @@ By selecting the text you can activate ChromeEye to read all text selected. It w
 # Use cases:
 
 Productivity:
-Literally, train yourself to read faster, since all text is fixated you don't have to move your eyes to read!
+Train and allow yourself to read faster since all text is fixated you don't have to move your eyes to read!
 
 Aid:
 Make the font size big and read speed slow.
