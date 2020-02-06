@@ -1,39 +1,36 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <meta charset="utf-8">
-    <title>ChromeEye Extension</title>
-    <meta name="description" content="ChromeEye">
-    <meta name="author" content="Bahram Bagher">
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <!-- <script type="module" src="functions.js"></script> -->
-    <script src="popup.js"></script>
-            <h2>ChromeEye</h2>
-        <div>
-        <button class="button" id="checkbox">Activate</button>
-            </div><br>
-           
-            <div>
-            Slow
-<div class="slidecontainer">
-  <input type="range" min="1" max="100" value="50" class="slider" id="speed">
-</div>
-        </div><div>
-            Font-size
-<div class="slidecontainer">
-  <input type="range" min="1" max="100" value="50" class="slider" id="size">
-</div>
-
-        </div>
-        <div>
-  
-  Color<input type="color" name="favcolor" id="color" value="#ff0000" class="color"><br><br>
-        </div>
-  
+  <meta charset="utf-8">
+  <title>ChromeEye Extension</title>
+  <meta name="description" content="ChromeEye">
+  <meta name="author" content="Bahram Bagher">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <script src="popup.js"></script>
+  <div class="flex">
+    <button class="button" id="activate">Activate</button>
+    <button class="button" id="stop">Stop</button>
+  </div>
+    <div class="clear">
+      Clear text<input type="checkbox" name="clear" value="checkbox" id="clear" class="checkbox">
+  </div>
+  <div>
+    Speed
+    <div class="slidecontainer">
+      <input type="range" min="1" max="100" value="50" class="slider" id="speed">
+    </div>
+  </div>
+  <div>
+    Font-size
+    <div class="slidecontainer">
+      <input type="range" min="1" max="100" value="50" class="slider" id="size">
+    </div>
+  </div>
+  <div>
+   <input type="color" name="favcolor" id="color" value="#ff0000" class="color"><br><br>
+  </div>
 </body>
-    <script src="popup.js"></script>
-</html> 
- 
+<script src="popup.js"></script>
+</html>
