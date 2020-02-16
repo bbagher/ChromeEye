@@ -1,7 +1,13 @@
 window.addEventListener("DOMContentLoaded", event => {
-  let speed, color, size, og, clearBool;
+  let speed, color, size, clearBool;
 
-  const stop = () => {
+  const stop = async () => {
+    await chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+      chrome.tabs.executeScript(tabs[0].id, {
+        code:
+        "b =document.getElementsByTagName(sessionStorage.getItem('og'));for(let i in b){if (Number(i) == i){if(b[i].innerText.startsWith(sessionStorage.getItem('starts')))b[i].innerHTML=sessionStorage.getItem('text');}}"
+      });
+    });
     chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
       chrome.tabs.executeScript(tabs[0].id, {
         code:
@@ -41,12 +47,10 @@ window.addEventListener("DOMContentLoaded", event => {
         console.log("Value is set to " + value);
       });
       // user inputs  and (very sophisticated algo for speed and size)
-      let actualSpeed = (100 - Number(speed)) * 5;
-      let actualSize = Number(size) * 2;
-      og = text.innerHTML
-        .split(" ")
-        .slice()
-        .join(" ");
+      const actualSpeed = (100 - Number(speed)) * 5;
+      const actualSize = Number(size) * 2;
+      const og = text.innerHTML.slice();
+      
       let textArray = text.innerText.split(" ");
       console.log(textArray);
       let offset = 0;
@@ -85,6 +89,12 @@ window.addEventListener("DOMContentLoaded", event => {
     document.addEventListener(
       "click",
       (read = () => {
+
+        // reset dom after stop (save info needed to reset dom)
+        sessionStorage.setItem('og', event.toElement.tagName);
+        sessionStorage.setItem('text', event.toElement.innerHTML.slice())
+        sessionStorage.setItem('starts', event.toElement.innerText.slice(0,10))
+
         readEye(event.toElement);
       })
     );
