@@ -3,7 +3,7 @@
     "name": "ChromeEye",
     "author": "bbagher",
     "description": "Speed up your reading and productivity",
-    "version": "1.0",
+    "version": "1.0.1",
     "browser_action": {
         "default_icon": {
             "16": "eye.png",
