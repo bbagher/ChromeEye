@@ -1,6 +1,6 @@
 # ChromeEye
 
-This is a tool that will allow you to read faster or slower... your choice! 
+Speed your reading and productivity...
 
 # How to use: 
 Set the user inputs then click 'Activate' and proceed to click the text in a website that you would like to read with ChromeEye.
